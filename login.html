@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | الحودي للتسويق العقاري</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a2f4a 50%, #0d1b2a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 45px 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    animation: fadeUp 0.4s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-logo {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .login-logo img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  .login-logo h1 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #0d1b2a;
+    margin-bottom: 3px;
+  }
+
+  .login-logo p {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c8a84b, transparent);
+    margin: 0 0 28px;
+    border-radius: 2px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 7px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-wrap i.icon {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c8a84b;
+    font-size: 0.9rem;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    padding: 11px 38px 11px 40px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    color: #222;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fafafa;
+  }
+
+  .input-wrap input:focus {
+    border-color: #c8a84b;
+    box-shadow: 0 0 0 3px rgba(200,168,75,0.15);
+    background: #fff;
+  }
+
+  .toggle-pass {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 0.9rem;
+    padding: 0;
+    transition: color 0.2s;
+  }
+
+  .toggle-pass:hover { color: #c8a84b; }
+
+  .error-msg {
+    display: none;
+    background: #fff0f0;
+    border: 1px solid #fcc;
+    color: #c0392b;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .error-msg.show { display: block; }
+
+  .btn-login {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #c8a84b, #e8c96a);
+    border: none;
+    border-radius: 10px;
+    color: #0d1b2a;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(200,168,75,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(200,168,75,0.45);
+  }
+
+  .btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: #c8a84b; }
+  .back-link i { margin-left: 5px; }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-logo">
+    <img src="assets/images/logo_new.png" alt="الحودي">
+    <h1>الحودي للتسويق العقاري</h1>
+    <p>لوحة التحكم — تسجيل الدخول</p>
+  </div>
+  <div class="divider"></div>
+
+  <div class="error-msg" id="errorMsg">
+    <i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة
+  </div>
+
+  <div class="form-group">
+    <label><i class="fas fa-user" style="color:#c8a84b;margin-left:5px;"></i> اسم المستخدم</label>
+    <div class="input-wrap">
+      <i class="fas fa-user icon"></i>
+      <input type="text" id="username" placeholder="أدخل اسم المستخدم" autocomplete="username">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label><i class="fas fa-lock" style="color:#c8a84b;margin-left:5px;"></i> كلمة المرور</label>
+    <div class="input-wrap">
+      <i class="fas fa-lock icon"></i>
+      <input type="password" id="password" placeholder="أدخل كلمة المرور" autocomplete="current-password">
+      <button type="button" class="toggle-pass" onclick="togglePass('password', this)" tabindex="-1">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+  </div>
+
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">
+    <i class="fas fa-sign-in-alt"></i> دخول
+  </button>
+
+  <a href="index.html" class="back-link">
+    <i class="fas fa-arrow-right"></i> العودة للموقع
+  </a>
+</div>
+
+<script>
+// الضغط على Enter للدخول
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+function togglePass(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const isPass = input.type === 'password';
+  input.type = isPass ? 'text' : 'password';
+  btn.querySelector('i').className = isPass ? 'fas fa-eye-slash' : 'fas fa-eye';
+}
+
+function getCredentials() {
+  return {
+    username: localStorage.getItem('alhoudi_username') || 'admin',
+    password: localStorage.getItem('alhoudi_password') || 'alhoudi2026'
+  };
+}
+
+function doLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const creds = getCredentials();
+  const errorMsg = document.getElementById('errorMsg');
+  const btn = document.getElementById('loginBtn');
+
+  if (!username || !password) {
+    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> يرجى إدخال اسم المستخدم وكلمة المرور';
+    errorMsg.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+
+  setTimeout(() => {
+    if (username === creds.username && password === creds.password) {
+      // حفظ جلسة الدخول
+      sessionStorage.setItem('alhoudi_logged_in', 'true');
+      sessionStorage.setItem('alhoudi_login_time', Date.now());
+      window.location.href = 'admin.html';
+    } else {
+      errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> اسم المستخدم أو كلمة المرور غير صحيحة';
+      errorMsg.classList.add('show');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  }, 600);
+}
+</script>
+</body>
+</html>

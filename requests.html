@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطلبات العقارية | الحودي للتسويق العقاري</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <img src="assets/images/logo_new.png" alt="الحودي للتسويق العقاري" onerror="this.src=this.src.replace('.png','.svg')">
+      <div class="navbar-logo-text">
+        <span class="brand-name">الحودي</span>
+        <span class="brand-sub-white">للتسويق العقاري</span>
+      </div>
+    </a>
+    <ul class="navbar-nav" id="mainNav">
+      <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="offers.html"><i class="fas fa-building"></i> عروض عقارية</a></li>
+      <li><a href="requests.html" class="active"><i class="fas fa-list-check"></i> طلبات عقارية</a></li>
+      <li><a href="#footer"><i class="fas fa-phone"></i> اتصل بنا</a></li>
+    </ul>
+    <button class="navbar-toggle" onclick="toggleNav()" aria-label="القائمة">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <h1>الطلبات <span>العقارية</span></h1>
+  <p>عقارات مطلوبة من عملائنا في مختلف مدن المملكة</p>
+
+  <!-- SEARCH -->
+  <div class="search-wrapper" style="margin-top:25px;">
+    <button class="search-toggle-btn" id="searchToggle" onclick="toggleSearch()">
+      <i class="fas fa-sliders"></i>
+      بحث أو فرز الطلبات
+      <span class="toggle-icon">▼</span>
+    </button>
+    <div class="search-filters" id="searchFilters">
+      <div class="filter-group">
+        <label><i class="fas fa-home"></i> نوع العقار</label>
+        <select id="filterType" onchange="filterRequests()">
+          <option value="">الكل</option>
+          <option value="فيلا">فيلا</option>
+          <option value="شقة">شقة</option>
+          <option value="أرض">أرض</option>
+          <option value="عمارة">عمارة</option>
+          <option value="مكتب">مكتب</option>
+          <option value="محل">محل تجاري</option>
+          <option value="مستودع">مستودع</option>
+          <option value="مزرعة">مزرعة</option>
+          <option value="استراحة">استراحة</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label><i class="fas fa-map-marker-alt"></i> المدينة</label>
+        <select id="filterCity" onchange="filterRequests()">
+          <option value="">كل المدن</option>
+          <option value="الرياض">الرياض</option>
+          <option value="جدة">جدة</option>
+          <option value="مكة المكرمة">مكة المكرمة</option>
+          <option value="المدينة المنورة">المدينة المنورة</option>
+          <option value="الدمام">الدمام</option>
+          <option value="الخبر">الخبر</option>
+          <option value="الظهران">الظهران</option>
+          <option value="تبوك">تبوك</option>
+          <option value="بريدة">بريدة</option>
+          <option value="أبها">أبها</option>
+          <option value="نجران">نجران</option>
+          <option value="حائل">حائل</option>
+          <option value="الطائف">الطائف</option>
+          <option value="الجبيل">الجبيل</option>
+          <option value="ينبع">ينبع</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="filterRequests()">
+        <i class="fas fa-search"></i> بحث
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- REQUESTS SECTION -->
+<section class="section" style="padding-top:35px;">
+  <div class="requests-grid" id="requestsGrid">
+    <div class="empty-state" id="loadingState">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>جاري التحميل...</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:linear-gradient(135deg,var(--navy-dark),var(--navy));padding:50px 20px;text-align:center;">
+  <h2 style="color:var(--white);font-size:1.5rem;font-weight:900;margin-bottom:10px;">هل تملك عقاراً مناسباً؟</h2>
+  <p style="color:rgba(255,255,255,0.65);margin-bottom:25px;">تواصل معنا الآن وسنجد لك المشتري المناسب</p>
+  <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;">
+    <a href="https://wa.me/966553999737" class="btn-whatsapp" target="_blank" style="width:auto;padding:13px 30px;">
+      <i class="fab fa-whatsapp"></i> تواصل واتساب
+    </a>
+    <a href="tel:+966553999737" class="btn-call" style="width:auto;padding:13px 30px;">
+      <i class="fas fa-phone-alt"></i> اتصل الآن
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-area">
+        <img src="assets/images/logo_new.png">
+        <div>
+          <div class="brand-name">الحودي للتسويق العقاري</div>
+          <span class="brand-sub-white">للتسويق العقاري</span>
+        </div>
+      </div>
+      
+      <div class="fal-license"><i class="fas fa-certificate"></i> رخصة فال: 1100050560</div>
+      <div class="social-links">
+        <a href="https://wa.me/966553999737" class="social-link whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com" class="social-link twitter" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://snapchat.com" class="social-link snapchat" target="_blank"><i class="fab fa-snapchat-ghost"></i></a>
+        <a href="https://tiktok.com" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+        <li><a href="offers.html"><i class="fas fa-chevron-left"></i> عروض عقارية</a></li>
+        <li><a href="requests.html"><i class="fas fa-chevron-left"></i> الطلبات العقارية</a></li>
+        <li><a href="#footer"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <div class="footer-contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+966553999737">+966553999737</a>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <a href="https://wa.me/966553999737" target="_blank">واتساب</a>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>المملكة العربية السعودية</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>جميع الحقوق محفوظة &copy; 2026 | <strong>الحودي للتسويق العقاري</strong> | رخصة فال: 1100050560</p>
+  </div>
+</footer>
+
+<script>
+const PHONE = '966553999737';
+
+function fmtNum(n) {
+  if (!n && n !== 0) return '-';
+  return Number(n).toLocaleString('en-US');
+}
+
+function fmtDate(d) {
+  if (!d) return '-';
+  return new Date(d).toLocaleDateString('ar-SA', {year:'numeric',month:'long',day:'numeric'});
+}
+
+function toggleNav() {
+  document.getElementById('mainNav').classList.toggle('open');
+}
+
+function toggleSearch() {
+  const filters = document.getElementById('searchFilters');
+  const btn = document.getElementById('searchToggle');
+  filters.classList.toggle('show');
+  btn.classList.toggle('active');
+}
+
+let allRequests = [];
+
+async function loadRequests() {
+  try {
+    const res = await fetch('save.php?action=get_requests');
+    const json = await res.json();
+    if (json.success) allRequests = json.data || [];
+  } catch(e) {
+    try {
+      const res = await fetch('data/requests.json');
+      allRequests = await res.json();
+    } catch(e2) {}
+  }
+  renderRequests(allRequests);
+}
+
+function renderRequests(requests) {
+  const grid = document.getElementById('requestsGrid');
+  if (!requests || requests.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>لا توجد طلبات تطابق البحث</p></div>';
+    return;
+  }
+  grid.innerHTML = requests.map(r => `
+    <div class="req-card">
+      <div class="req-card-title">${r.title}</div>
+      <div class="req-card-tags">
+        <span class="req-tag"><i class="fas fa-home"></i> ${r.type}</span>
+        <span class="req-tag"><i class="fas fa-map-marker-alt"></i> ${r.city}</span>
+        <span class="req-tag gold"><i class="fas fa-money-bill"></i> الميزانية: حتى ${fmtNum(r.budget)} ريال</span>
+      </div>
+      <div class="req-card-details">${r.details || ''}</div>
+      <div class="req-card-footer">
+        <span><i class="fas fa-calendar"></i> تاريخ الطلب: ${fmtDate(r.date)}</span>
+        <a href="request.html?id=${r.id}" style="color:var(--gold-dark);font-weight:700;text-decoration:none;font-size:0.85rem;display:flex;align-items:center;gap:5px;">
+          <i class="fas fa-eye"></i> التفاصيل
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterRequests() {
+  const type = document.getElementById('filterType').value;
+  const city = document.getElementById('filterCity').value;
+  let filtered = allRequests;
+  if (type) filtered = filtered.filter(r => r.type === type);
+  if (city) filtered = filtered.filter(r => r.city === city);
+  renderRequests(filtered);
+}
+
+loadRequests();
+</script>
+</body>
+</html>

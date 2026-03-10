@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الحودي للتسويق العقاري | بوابتك العقارية بأسلوب جديد</title>
+<meta name="description" content="الحودي للتسويق العقاري - عروض وطلبات مباشرة و موثّقة - أفضل العروض العقارية الحصرية للبيع في جميع أنحاء المملكة العربية السعودية">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">
+      <img src="assets/images/logo_new.png" alt="الحودي للتسويق العقاري">
+      <div class="navbar-logo-text">
+        <span class="brand-name">الحودي</span>
+        <span class="brand-sub-white">للتسويق العقاري</span>
+      </div>
+    </a>
+    <ul class="navbar-nav" id="mainNav">
+      <li><a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+      <li><a href="offers.html"><i class="fas fa-building"></i> عروض عقارية</a></li>
+      <li><a href="requests.html"><i class="fas fa-list-check"></i> طلبات عقارية</a></li>
+      <li><a href="#footer"><i class="fas fa-phone"></i> اتصل بنا</a></li>
+    </ul>
+    <button class="navbar-toggle" onclick="toggleNav()" aria-label="القائمة">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-star"></i>
+      عروض وطلبات مباشرة و موثّقة
+    </div>
+    <h1>بوابتك العقارية <span style="-webkit-text-fill-color: white; background: none; color: white;">بأسلوب جديد</span></h1>
+    <p>أفضل العروض العقارية الحصرية للبيع في جميع أنحاء المملكة</p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="hero-buttons">
+      <a href="offers.html" class="hero-action-btn properties-btn">
+        <i class="fas fa-building"></i>
+        العروض العقارية
+      </a>
+      <a href="requests.html" class="hero-action-btn requests-btn">
+        <i class="fas fa-list-check"></i>
+        الطلبات العقارية
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTIES SECTION -->
+<section class="section" id="properties">
+  <div class="section-header">
+    <h2 class="section-title">أحدث <span>العروض العقارية</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="properties-grid" id="propertiesGrid">
+    <div class="empty-state" id="loadingState">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>جاري التحميل...</p>
+    </div>
+  </div>
+  
+  <div style="text-align:center;margin-top:30px;">
+    <a href="offers.html" class="btn-details" style="font-size:1rem;padding:13px 35px;">
+      <i class="fas fa-building"></i> عرض جميع العروض
+    </a>
+  </div>
+</section>
+
+
+<!-- REQUESTS PREVIEW -->
+<section class="section" style="background: var(--white);">
+  <div class="section-header">
+    <span class="section-tag">✦ طلبات</span>
+    <h2 class="section-title">أحدث <span>الطلبات العقارية</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="requests-grid" id="requestsGrid">
+    <!-- Loaded dynamically -->
+  </div>
+  <div style="text-align:center;margin-top:30px;">
+    <a href="requests.html" class="btn-details" style="font-size:1rem;padding:13px 35px;">
+      <i class="fas fa-list"></i> عرض جميع الطلبات
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-area">
+        <img src="assets/images/logo_new.png" alt="الحودي">
+        <div>
+          <div class="brand-name">الحودي</div>
+          <span class="brand-sub-white">للتسويق العقاري</span>
+        </div>
+      </div>
+      <div class="fal-license"><i class="fas fa-certificate"></i> رخصة فال: 1100050560</div>
+      <div class="social-links">
+        <a href="https://wa.me/966553999737" class="social-link whatsapp" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com" class="social-link instagram" target="_blank" title="إنستقرام"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com" class="social-link twitter" target="_blank" title="تويتر X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://snapchat.com" class="social-link snapchat" target="_blank" title="سناب شات"><i class="fab fa-snapchat-ghost"></i></a>
+        <a href="https://tiktok.com" class="social-link tiktok" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+        <li><a href="offers.html"><i class="fas fa-chevron-left"></i> عروض عقارية</a></li>
+        <li><a href="requests.html"><i class="fas fa-chevron-left"></i> الطلبات العقارية</a></li>
+        <li><a href="#footer"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <div class="footer-contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+966553999737">+966553999737</a>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <a href="https://wa.me/966553999737" target="_blank">واتساب</a>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>المملكة العربية السعودية</span>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fas fa-certificate"></i>
+        <span>رخصة فال: 1100050560</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>جميع الحقوق محفوظة &copy; 2026 | <strong>الحودي للتسويق العقاري</strong> | رخصة فال: 1100050560</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+<script>
+const PHONE = '966553999737';
+
+// Format number with commas (English digits)
+function fmtNum(n) {
+  if (!n && n !== 0) return '-';
+  return Number(n).toLocaleString('en-US');
+}
+
+function fmtDate(d) {
+  if (!d) return '-';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('ar-SA', {year:'numeric',month:'long',day:'numeric'});
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function toggleNav() {
+  document.getElementById('mainNav').classList.toggle('open');
+}
+
+let allProperties = [];
+let allRequests = [];
+
+async function loadProperties() {
+  try {
+    const res = await fetch('save.php?action=get_properties');
+    const json = await res.json();
+    if (json.success) {
+      allProperties = json.data || [];
+      // Sort by date descending
+      allProperties.sort((a, b) => new Date(b.date) - new Date(a.date));
+      renderProperties(allProperties);
+    }
+  } catch(e) {
+    // Fallback: load from JSON
+    try {
+      const res = await fetch('data/properties.json');
+      allProperties = await res.json();
+      allProperties.sort((a,b) => new Date(b.date) - new Date(a.date));
+      renderProperties(allProperties);
+    } catch(e2) {
+      document.getElementById('propertiesGrid').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>تعذر تحميل العروض</p></div>';
+    }
+  }
+}
+
+async function loadRequests() {
+  try {
+    const res = await fetch('save.php?action=get_requests');
+    const json = await res.json();
+    if (json.success) {
+      allRequests = (json.data || []).slice(0, 4);
+      renderRequests(allRequests);
+    }
+  } catch(e) {
+    try {
+      const res = await fetch('data/requests.json');
+      allRequests = (await res.json()).slice(0, 4);
+      renderRequests(allRequests);
+    } catch(e2) {}
+  }
+}
+
+function renderProperties(props) {
+  const grid = document.getElementById('propertiesGrid');
+  if (!props || props.length === 0) {
+    grid.innerHTML = '<div class="no-results"><i class="fas fa-search"></i><p>لا توجد عروض تطابق البحث</p></div>';
+    return;
+  }
+  // Show only latest 4 properties on home page
+  const propsToShow = props.slice(0, 4);
+  grid.innerHTML = propsToShow.map(p => {
+    const imgHtml = p.images && p.images.length > 0
+      ? `<img src="${p.images[0]}" alt="${p.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=prop-no-img><i class=fas fa-building></i><span>صورة غير متاحة</span></div>'">`
+      : `<div class="prop-no-img"><i class="fas fa-building"></i><span>لا توجد صورة</span></div>`;
+    const typeBadge = p.type || 'عقار';
+    return `
+    <div class="prop-card${p.sold ? ' is-sold' : ''}">
+      <div class="prop-card-img">
+        ${imgHtml}
+        <span class="prop-badge">${typeBadge}</span>
+        ${p.sold ? '<div class="sold-overlay"><div class="sold-stamp">تم البيع</div></div>' : ''}
+      </div>
+      <div class="prop-card-body">
+        <div class="prop-card-title">${p.title}</div>
+        <div class="prop-card-meta">
+          <div class="prop-meta-item"><i class="fas fa-map-marker-alt"></i><span>${p.city || '-'}</span></div>
+          <div class="prop-meta-item"><i class="fas fa-ruler-combined"></i><span>${fmtNum(p.area)} م²</span></div>
+          <div class="prop-meta-item"><i class="fas fa-calendar-alt"></i><span>${fmtDate(p.date)}</span></div>
+          <div class="prop-meta-item"><i class="fas fa-tag"></i><span>${p.type || '-'}</span></div>
+        </div>
+        <div class="prop-price-row">
+          <div class="prop-price">
+            ${fmtNum(p.price)}
+            <span class="currency">ريال</span>
+          </div>
+          <a href="property.html?id=${p.id}" class="btn-details">
+            <i class="fas fa-eye"></i> التفاصيل
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderRequests(reqs) {
+  const grid = document.getElementById('requestsGrid');
+  if (!reqs || reqs.length === 0) {
+    grid.innerHTML = '<div class="no-results" style="grid-column:1/-1"><i class="fas fa-inbox"></i><p>لا توجد طلبات حالياً</p></div>';
+    return;
+  }
+  grid.innerHTML = reqs.map(r => `
+    <div class="req-card">
+      <div class="req-card-title">${r.title}</div>
+      <div class="req-card-tags">
+        <span class="req-tag"><i class="fas fa-home"></i> ${r.type}</span>
+        <span class="req-tag"><i class="fas fa-map-marker-alt"></i> ${r.city}</span>
+        <span class="req-tag gold"><i class="fas fa-money-bill"></i> حتى ${fmtNum(r.budget)} ريال</span>
+      </div>
+      <div class="req-card-details">${r.details || ''}</div>
+      <div class="req-card-footer">
+        <span><i class="fas fa-calendar"></i> تاريخ الطلب: ${fmtDate(r.date)}</span>
+        <a href="request.html?id=${r.id}" style="color:var(--gold-dark);font-weight:700;text-decoration:none;font-size:0.82rem;display:flex;align-items:center;gap:5px;"><i class="fas fa-eye"></i> التفاصيل</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Init
+loadProperties();
+loadRequests();
+</script>
+</body>
+</html>

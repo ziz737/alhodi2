@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم | الحودي للتسويق العقاري</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f3f4f8; font-family: 'Cairo', sans-serif; direction: rtl; }
+
+/* ===== TOP NAVBAR ===== */
+.admin-topbar {
+  background: var(--navy-dark);
+  border-bottom: 2px solid var(--gold-dark);
+  padding: 0 20px;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+}
+.admin-topbar-logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.admin-topbar-logo img { height: 44px; width: auto; object-fit: contain; }
+.admin-topbar-logo .t-name {
+  font-size: 1rem; font-weight: 800;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1.6;
+  padding-bottom: 2px;
+  display: inline-block;
+}
+.admin-topbar-logo .t-sub { font-size: 0.68rem; color: rgba(255,255,255,0.4); }
+.admin-topbar-logo .t-sub-white { 
+  font-size: 0.75rem; 
+  color: rgba(255,255,255,0.9); 
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-topbar-date { 
+  font-size: 0.8rem; 
+  color: rgba(255,255,255,0.5); 
+  display: flex; 
+  align-items: center; 
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-sm);
+}
+.admin-topbar-date i { color: var(--gold); }
+
+.btn-visit-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(200,168,75,0.15);
+  border: 1.5px solid var(--gold);
+  color: var(--gold-light);
+  border-radius: var(--radius-sm);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.btn-visit-site:hover {
+  background: var(--gold-gradient);
+  color: var(--navy-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(200,168,75,0.3);
+}
+.btn-visit-site i { font-size: 0.9rem; }
+
+/* ===== MAIN WRAPPER ===== */
+.admin-page { 
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 25px 20px 60px;
+  width: 100%;
+}
+
+/* ===== ACTION BUTTONS GRID ===== */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+.action-btn {
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center;
+  gap: 12px; 
+  padding: 22px 16px;
+  background: var(--gold-gradient);
+  color: var(--navy-dark);
+  border: none; 
+  border-radius: var(--radius-md);
+  font-family: 'Cairo', sans-serif; 
+  font-size: 0.95rem; 
+  font-weight: 800;
+  cursor: pointer; 
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-gold); 
+  text-decoration: none;
+  min-height: 99px;
+}
+.action-btn i { font-size: 1.4rem; }
+.action-btn:hover { 
+  transform: translateY(-3px); 
+  box-shadow: 0 10px 30px rgba(200,168,75,0.4); 
+}
+.action-btn.danger {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  color: #fff; 
+  box-shadow: 0 4px 15px rgba(192,57,43,0.3);
+}
+.action-btn.danger:hover { 
+  box-shadow: 0 10px 30px rgba(192,57,43,0.4); 
+}
+
+/* ===== SECTION PAGES ===== */
+.admin-section { display: none; }
+.admin-section.active { display: block; }
+
+.admin-section-header {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  margin-bottom: 25px; 
+  flex-wrap: wrap; 
+  gap: 12px;
+}
+.admin-section-header h2 {
+  font-size: 1.3rem; 
+  font-weight: 900; 
+  color: var(--navy-dark);
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+}
+.admin-section-header h2 i { color: var(--gold); }
+
+.admin-section-header > div {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* password */
+.pass-input-wrap { position: relative; }
+.pass-input-wrap input { width:100%; padding:10px 14px 10px 38px; border:1.5px solid var(--gray); border-radius:var(--radius-sm); font-family:'Cairo',sans-serif; font-size:0.95rem; outline:none; transition:border-color 0.2s; }
+.pass-input-wrap input:focus { border-color:var(--gold); }
+.pass-toggle { position:absolute; left:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#aaa; font-size:0.9rem; }
+.pass-toggle:hover { color:var(--gold); }
+#newCityInput:focus { border-color:var(--gold) !important; box-shadow:0 0 0 3px rgba(200,168,75,0.15); }
+
+/* تحسين عرض الجداول على الشاشات الكبيرة */
+@media (min-width: 1200px) {
+  .admin-page { max-width: 1600px; padding: 30px 30px 60px; }
+  .action-grid { gap: 16px; }
+  .admin-stats { gap: 20px; grid-template-columns: repeat(4, 1fr) !important; }
+  .admin-table th, .admin-table td { padding: 14px 16px; }
+}
+
+@media (min-width: 1400px) {
+  .admin-page { max-width: 1800px; }
+}
+
+@media (max-width: 1024px) {
+  .admin-page { padding: 20px 16px 50px; }
+  .action-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+  .admin-stats { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+@media (max-width: 768px) {
+  .admin-topbar { padding: 0 14px; min-height: 65px; }
+  .admin-topbar-logo img { height: 38px; }
+  .admin-topbar-logo .t-name { font-size: 0.92rem; }
+  .admin-topbar-logo .t-sub { font-size: 0.65rem; }
+  .admin-topbar-date { display: none; }
+  
+  .admin-page { padding: 18px 12px 50px; }
+  .action-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .action-btn { padding: 18px 12px; font-size: 0.85rem; min-height: 85px; gap: 10px; }
+  .action-btn i { font-size: 1.25rem; }
+  
+  .admin-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+  .stat-card { padding: 16px; }
+  .stat-icon { width: 45px; height: 45px; font-size: 1.2rem; }
+  .stat-info .num { font-size: 1.4rem; }
+  .stat-info .label { font-size: 0.75rem; }
+  
+  .admin-section-header { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 14px;
+  }
+  .admin-section-header h2 { font-size: 1.1rem; }
+  .admin-section-header > div { 
+    width: 100%; 
+    justify-content: flex-start;
+  }
+  
+  .form-grid { grid-template-columns: 1fr !important; gap: 14px; }
+  .admin-form-card { padding: 18px 14px; }
+  .form-group label { font-size: 0.85rem; }
+  .form-group input, 
+  .form-group select, 
+  .form-group textarea { 
+    font-size: 0.9rem; 
+    padding: 10px 12px; 
+  }
+  
+  .admin-table-wrap { 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-table { 
+    min-width: 700px; 
+    font-size: 0.82rem; 
+  }
+  .admin-table th, 
+  .admin-table td { 
+    padding: 10px 8px; 
+    white-space: nowrap; 
+  }
+  
+  .btn-edit, 
+  .btn-delete, 
+  .btn-add { 
+    font-size: 0.8rem; 
+    padding: 7px 11px; 
+  }
+  
+  .btn-visit-site {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  .btn-visit-site span { display: none; }
+}
+
+@media (max-width: 480px) {
+  .admin-topbar { padding: 0 10px; }
+  .admin-topbar-logo { gap: 8px; }
+  .admin-topbar-logo img { height: 34px; }
+  .admin-topbar-logo .t-name { font-size: 0.85rem; }
+  .admin-topbar-logo .t-sub { display: none; }
+  
+  .admin-topbar-right { gap: 8px; }
+  .btn-visit-site { padding: 7px 10px; font-size: 0.75rem; }
+  
+  .admin-page { padding: 14px 10px 40px; }
+  .action-grid { grid-template-columns: 1fr; gap: 10px; }
+  .action-btn { 
+    padding: 18px 14px; 
+    font-size: 0.88rem; 
+    min-height: 75px;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .action-btn i { font-size: 1.2rem; }
+  
+  .admin-table { 
+    min-width: 650px; 
+    font-size: 0.75rem; 
+  }
+  .admin-table th, 
+  .admin-table td { 
+    padding: 8px 6px; 
+  }
+  .admin-table .prop-thumb { width: 45px; height: 45px; }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form-actions button {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<script>
+(function() {
+  const loggedIn = sessionStorage.getItem('alhoudi_logged_in');
+  const loginTime = parseInt(sessionStorage.getItem('alhoudi_login_time') || '0');
+  if (!loggedIn || (Date.now() - loginTime) > 8 * 3600000) {
+    sessionStorage.removeItem('alhoudi_logged_in');
+    window.location.replace('login.html');
+  }
+})();
+</script>
+
+<!-- TOP NAVBAR -->
+<header class="admin-topbar">
+  <div class="admin-topbar-logo">
+    <img src="assets/images/logo_new.png" alt="الحودي">
+    <div>
+      <div class="t-name">الحودي</div>
+      <div class="t-sub-white">للتسويق العقاري</div>
+    </div>
+  </div>
+  <div class="admin-topbar-right">
+    <div class="admin-topbar-date">
+      <i class="fas fa-calendar-alt"></i>
+      <span id="todayDate"></span>
+    </div>
+    <a href="index.html" target="_blank" class="btn-visit-site">
+      <i class="fas fa-globe"></i>
+      <span>زيارة الموقع</span>
+    </a>
+  </div>
+</header>
+
+<div class="admin-page">
+
+  <!-- ===== DASHBOARD ===== -->
+  <div class="admin-section active" id="section-dashboard">
+
+    <!-- Stats -->
+    <div class="admin-stats" id="dashStats" style="margin-bottom:30px;">
+      <div class="stat-card">
+        <div class="stat-icon gold"><i class="fas fa-building"></i></div>
+        <div class="stat-info"><div class="num" id="statProps">0</div><div class="label">عروض عقارية</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon navy"><i class="fas fa-list-check"></i></div>
+        <div class="stat-info"><div class="num" id="statReqs">0</div><div class="label">طلبات عقارية</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-home"></i></div>
+        <div class="stat-info"><div class="num" id="statVillas">0</div><div class="label">فلل</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon gold"><i class="fas fa-city"></i></div>
+        <div class="stat-info"><div class="num" id="statApts">0</div><div class="label">شقق وأراضي</div></div>
+      </div>
+    </div>
+
+    <!-- Main Actions -->
+    <div class="action-grid">
+      <button class="action-btn" onclick="showSection('properties')">
+        <i class="fas fa-building"></i> العروض العقارية
+      </button>
+      <button class="action-btn" onclick="showSection('add-property')">
+        <i class="fas fa-plus-circle"></i> إضافة عقار جديد
+      </button>
+      <button class="action-btn" onclick="showSection('requests')">
+        <i class="fas fa-list-check"></i> الطلبات العقارية
+      </button>
+      <button class="action-btn" onclick="showSection('add-request')">
+        <i class="fas fa-plus"></i> إضافة طلب جديد
+      </button>
+    </div>
+
+    <!-- Recent Tables -->
+    <div style="display:flex;flex-direction:column;gap:25px;margin-bottom:30px;">
+
+      <div class="admin-table-wrap">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--gray);display:flex;align-items:center;justify-content:space-between;">
+          <h3 style="font-size:1rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i style="color:var(--gold)" class="fas fa-building"></i> أحدث العروض
+          </h3>
+          <button onclick="showSection('properties')" class="btn-edit">عرض الكل</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="admin-table">
+            <thead><tr><th>العنوان</th><th>النوع</th><th>المدينة</th><th>السعر (ريال)</th><th>الحالة</th><th>التاريخ</th></tr></thead>
+            <tbody id="dashPropsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--gray);display:flex;align-items:center;justify-content:space-between;">
+          <h3 style="font-size:1rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i style="color:var(--gold)" class="fas fa-list-check"></i> أحدث الطلبات
+          </h3>
+          <button onclick="showSection('requests')" class="btn-edit">عرض الكل</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="admin-table">
+            <thead><tr><th>عنوان الطلب</th><th>النوع</th><th>المدينة</th><th>الميزانية (ريال)</th><th>التاريخ</th></tr></thead>
+            <tbody id="dashReqsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Settings Actions -->
+    <div class="action-grid">
+      <button class="action-btn" onclick="exportToExcel()">
+        <i class="fas fa-file-excel"></i> تصدير إكسل
+      </button>
+      <button class="action-btn" onclick="showSection('cities')">
+        <i class="fas fa-map-marker-alt"></i> إدارة المدن
+      </button>
+      <button class="action-btn" onclick="showSection('change-password')">
+        <i class="fas fa-key"></i> تغيير كلمة المرور
+      </button>
+      <button class="action-btn danger" onclick="doLogout()">
+        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      </button>
+    </div>
+
+  </div><!-- end dashboard -->
+
+  <!-- ===== PROPERTIES ===== -->
+  <div class="admin-section" id="section-properties">
+    <div class="admin-section-header">
+      <h2><i class="fas fa-building"></i> العروض العقارية</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-add" onclick="exportToExcel()" style="background:linear-gradient(135deg,#1a7a4a,#25a05a);">
+          <i class="fas fa-file-excel"></i> تصدير إكسل
+        </button>
+        <button class="btn-add" onclick="showSection('add-property')">
+          <i class="fas fa-plus"></i> إضافة عقار جديد
+        </button>
+        <button class="btn-edit" onclick="showSection('dashboard')">
+          <i class="fas fa-arrow-right"></i> رجوع
+        </button>
+      </div>
+    </div>
+    <div class="admin-table-wrap" style="overflow-x:auto;">
+      <table class="admin-table" id="propsTable">
+        <thead>
+          <tr><th>#</th><th>الصورة</th><th>العنوان</th><th>النوع</th><th>المدينة</th><th>المساحة</th><th>السعر</th><th>الحالة</th><th>التاريخ</th><th>المالك (سري)</th><th>الجوال (سري)</th><th>الموقع (سري)</th><th>الإجراءات</th></tr>
+        </thead>
+        <tbody id="propsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== ADD/EDIT PROPERTY ===== -->
+  <div class="admin-section" id="section-add-property">
+    <div class="admin-section-header">
+      <h2 id="propFormTitle"><i class="fas fa-plus-circle"></i> إضافة عقار جديد</h2>
+      <button class="btn-edit" onclick="showSection('properties')"><i class="fas fa-arrow-right"></i> رجوع</button>
+    </div>
+    <div class="admin-form-card">
+      <form id="propForm" onsubmit="saveProp(event)" enctype="multipart/form-data">
+        <input type="hidden" id="propId" name="id" value="">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label><i class="fas fa-heading"></i> عنوان العرض *</label>
+            <input type="text" id="propTitle" name="title" placeholder="مثال: فيلا الياسمين للبيع" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-home"></i> نوع العقار *</label>
+            <select id="propType" name="type" required>
+              <option value="">اختر النوع</option>
+              <option>فيلا</option><option>شقة</option><option>أرض</option><option>عمارة</option>
+              <option>مكتب</option><option value="محل">محل تجاري</option><option>مستودع</option>
+              <option>مزرعة</option><option>استراحة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> المدينة *</label>
+            <select id="propCity" name="city" required><option value="">اختر المدينة</option></select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-money-bill-wave"></i> السعر (ريال) *</label>
+            <input type="number" id="propPrice" name="price" placeholder="مثال: 1800000" min="0" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-ruler-combined"></i> المساحة (م²) *</label>
+            <input type="number" id="propArea" name="area" placeholder="مثال: 500" min="0" required>
+          </div>
+          <div class="form-group full">
+            <label><i class="fas fa-align-right"></i> تفاصيل العرض</label>
+            <textarea id="propDetails" name="details" placeholder="أدخل تفاصيل العقار..." rows="5"></textarea>
+          </div>
+          <div class="form-group full">
+            <label><i class="fas fa-tag"></i> حالة العقار</label>
+            <div style="display:flex;gap:15px;align-items:center;margin-top:5px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;">
+                <input type="radio" name="sold" id="soldNo" value="0" checked style="accent-color:var(--gold);width:17px;height:17px;">
+                <span style="color:var(--navy)">متاح للبيع</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;">
+                <input type="radio" name="sold" id="soldYes" value="1" style="accent-color:#e74c3c;width:17px;height:17px;">
+                <span style="color:#e74c3c;">تم البيع</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label><i class="fas fa-images"></i> الصور</label>
+            <div id="existingImagesWrap" style="display:none;margin-bottom:12px;">
+              <p style="font-size:0.85rem;color:var(--text-medium);margin-bottom:8px;font-weight:700;">الصور الحالية:</p>
+              <div class="existing-images" id="existingImages"></div>
+            </div>
+            <div class="upload-area" onclick="document.getElementById('propImages').click()">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>اضغط لرفع الصور أو اسحبها هنا</p>
+              <span>JPG, PNG, WebP - يمكن اختيار صور متعددة</span>
+              <input type="file" id="propImages" name="images[]" multiple accept="image/*" onchange="previewImages(this)">
+            </div>
+            <div class="preview-images" id="previewImgs"></div>
+          </div>
+
+          <!-- ===== حقول سرية ===== -->
+          <div class="form-group full" style="background:rgba(200,168,75,0.07);border:1.5px dashed var(--gold);border-radius:12px;padding:18px 20px;margin-top:8px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+              <i class="fas fa-lock" style="color:var(--gold);"></i>
+              <span style="font-weight:800;color:var(--navy-dark);font-size:0.95rem;">معلومات سرية (تظهر فقط في لوحة التحكم)</span>
+            </div>
+            <div class="form-grid" style="gap:14px;">
+              <div class="form-group" style="margin:0;">
+                <label><i class="fas fa-user"></i> اسم المالك (سري)</label>
+                <input type="text" id="propOwnerName" name="owner_name" placeholder="اسم مالك العقار">
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label><i class="fas fa-phone"></i> جوال المالك (سري)</label>
+                <input type="tel" id="propOwnerPhone" name="owner_phone" placeholder="05xxxxxxxx" pattern="[0-9]{10}" oninput="updatePropPhoneBtns(this.value)">
+                <div id="propOwnerPhoneBtns" style="display:none;gap:10px;margin-top:8px;flex-wrap:wrap;">
+                  <a id="propCallBtn" href="#" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1a7a4a,#25a05a);color:#fff;padding:7px 16px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:700;">
+                    <i class="fas fa-phone"></i> اتصال
+                  </a>
+                  <a id="propWhatsappBtn" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#128c7e,#25d366);color:#fff;padding:7px 16px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:700;">
+                    <i class="fab fa-whatsapp"></i> واتساب
+                  </a>
+                </div>
+              </div>
+              <div class="form-group full" style="margin:0;">
+                <label><i class="fas fa-map-marker-alt"></i> رابط الموقع على الخرائط (سري)</label>
+                <input type="url" id="propLocationUrl" name="location_url" placeholder="https://maps.google.com/..." oninput="updatePropLocationBtn(this.value)">
+                <div id="propLocationBtnWrap" style="display:none;margin-top:8px;">
+                  <a id="propLocationBtn" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;padding:7px 16px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:700;">
+                    <i class="fas fa-map-marker-alt"></i> فتح الموقع
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" onclick="showSection('properties')"><i class="fas fa-times"></i> إلغاء</button>
+          <button type="submit" class="btn-save"><i class="fas fa-save"></i> <span id="savePropBtnTxt">حفظ العقار</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== REQUESTS ===== -->
+  <div class="admin-section" id="section-requests">
+    <div class="admin-section-header">
+      <h2><i class="fas fa-list-check"></i> الطلبات العقارية</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-add" onclick="exportToExcel()" style="background:linear-gradient(135deg,#1a7a4a,#25a05a);">
+          <i class="fas fa-file-excel"></i> تصدير إكسل
+        </button>
+        <button class="btn-add" onclick="showSection('add-request')"><i class="fas fa-plus"></i> إضافة طلب جديد</button>
+        <button class="btn-edit" onclick="showSection('dashboard')"><i class="fas fa-arrow-right"></i> رجوع</button>
+      </div>
+    </div>
+    <div class="admin-table-wrap" style="overflow-x:auto;">
+      <table class="admin-table">
+        <thead><tr><th>#</th><th>عنوان الطلب</th><th>النوع</th><th>المدينة</th><th>الميزانية (ريال)</th><th>اسم طالب العقار</th><th>رقم الجوال</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
+        <tbody id="reqsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== ADD/EDIT REQUEST ===== -->
+  <div class="admin-section" id="section-add-request">
+    <div class="admin-section-header">
+      <h2 id="reqFormTitle"><i class="fas fa-plus"></i> إضافة طلب جديد</h2>
+      <button class="btn-edit" onclick="showSection('requests')"><i class="fas fa-arrow-right"></i> رجوع</button>
+    </div>
+    <div class="admin-form-card">
+      <form id="reqForm" onsubmit="saveReq(event)">
+        <input type="hidden" id="reqId" name="id" value="">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label><i class="fas fa-heading"></i> عنوان الطلب *</label>
+            <input type="text" id="reqTitle" name="title" placeholder="مثال: مطلوب فيلا في الرياض" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-home"></i> نوع العقار *</label>
+            <select id="reqType" name="type" required>
+              <option value="">اختر النوع</option>
+              <option>فيلا</option><option>شقة</option><option>أرض</option><option>عمارة</option>
+              <option>مكتب</option><option value="محل">محل تجاري</option><option>مستودع</option>
+              <option>مزرعة</option><option>استراحة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> المدينة *</label>
+            <select id="reqCity" name="city" required><option value="">اختر المدينة</option></select>
+          </div>
+          <div class="form-group full">
+            <label><i class="fas fa-money-bill-wave"></i> الميزانية حتى (ريال) *</label>
+            <input type="number" id="reqBudget" name="budget" placeholder="مثال: 2000000" min="0" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> اسم طالب العقار (سري)</label>
+            <input type="text" id="reqOwnerName" name="owner_name" placeholder="اسم طالب العقار">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-phone"></i> رقم الجوال (سري)</label>
+            <input type="tel" id="reqOwnerPhone" name="owner_phone" placeholder="05xxxxxxxx" pattern="[0-9]{10}">
+          </div>
+          <div class="form-group full">
+            <label><i class="fas fa-align-right"></i> تفاصيل الطلب</label>
+            <textarea id="reqDetails" name="details" placeholder="أدخل تفاصيل ما تبحث عنه..." rows="4"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" onclick="showSection('requests')"><i class="fas fa-times"></i> إلغاء</button>
+          <button type="submit" class="btn-save"><i class="fas fa-save"></i> <span id="saveReqBtnTxt">حفظ الطلب</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== CITIES ===== -->
+  <div class="admin-section" id="section-cities">
+    <div class="admin-section-header">
+      <h2><i class="fas fa-map-marker-alt"></i> إدارة المدن</h2>
+      <button class="btn-edit" onclick="showSection('dashboard')"><i class="fas fa-arrow-right"></i> رجوع</button>
+    </div>
+    <div class="admin-form-card" style="max-width:600px;">
+      <p style="color:var(--text-medium);font-size:0.9rem;margin-bottom:20px;">المدن المضافة هنا تظهر في قوائم المدن عند إضافة العقارات والطلبات.</p>
+      <div style="display:flex;gap:10px;margin-bottom:25px;">
+        <input type="text" id="newCityInput" placeholder="اكتب اسم المدينة..." style="flex:1;padding:10px 14px;border:1.5px solid var(--gray);border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:0.95rem;outline:none;">
+        <button class="btn-add" onclick="addCity()" style="padding:10px 22px;white-space:nowrap;"><i class="fas fa-plus"></i> إضافة</button>
+      </div>
+      <div id="citiesList" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== CHANGE PASSWORD ===== -->
+  <div class="admin-section" id="section-change-password">
+    <div class="admin-section-header">
+      <h2><i class="fas fa-key"></i> تغيير بيانات الدخول</h2>
+      <button class="btn-edit" onclick="showSection('dashboard')"><i class="fas fa-arrow-right"></i> رجوع</button>
+    </div>
+    <div class="admin-form-card" style="max-width:460px;">
+      <p style="color:var(--text-medium);font-size:0.9rem;margin-bottom:25px;">اتركها فارغة إن لم ترد تغييرها.</p>
+      <div class="form-group" style="margin-bottom:15px;">
+        <label style="display:block;font-size:0.85rem;font-weight:700;color:#333;margin-bottom:7px;"><i class="fas fa-user" style="color:var(--gold);margin-left:5px;"></i> اسم المستخدم الجديد</label>
+        <input type="text" id="newUsername" placeholder="اتركه فارغاً للإبقاء على الحالي" autocomplete="off" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray);border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:0.95rem;outline:none;">
+      </div>
+      <div class="form-group" style="margin-bottom:15px;">
+        <label style="display:block;font-size:0.85rem;font-weight:700;color:#333;margin-bottom:7px;"><i class="fas fa-lock" style="color:var(--gold);margin-left:5px;"></i> كلمة المرور الجديدة</label>
+        <div class="pass-input-wrap">
+          <input type="password" id="newPassword" placeholder="اتركها فارغة للإبقاء على الحالية" autocomplete="new-password">
+          <button type="button" class="pass-toggle" onclick="togglePassField('newPassword',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:15px;">
+        <label style="display:block;font-size:0.85rem;font-weight:700;color:#333;margin-bottom:7px;"><i class="fas fa-lock" style="color:var(--gold);margin-left:5px;"></i> تأكيد كلمة المرور</label>
+        <div class="pass-input-wrap">
+          <input type="password" id="confirmPassword" placeholder="أعد كتابة كلمة المرور الجديدة" autocomplete="new-password">
+          <button type="button" class="pass-toggle" onclick="togglePassField('confirmPassword',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:25px;">
+        <label style="display:block;font-size:0.85rem;font-weight:700;color:#333;margin-bottom:7px;"><i class="fas fa-shield-alt" style="color:var(--gold);margin-left:5px;"></i> كلمة المرور الحالية (للتحقق) *</label>
+        <div class="pass-input-wrap">
+          <input type="password" id="currentPassword" placeholder="أدخل كلمة المرور الحالية" autocomplete="current-password">
+          <button type="button" class="pass-toggle" onclick="togglePassField('currentPassword',this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" onclick="showSection('dashboard')"><i class="fas fa-times"></i> إلغاء</button>
+        <button type="button" class="btn-save" onclick="saveCredentials()"><i class="fas fa-save"></i> حفظ التغييرات</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+<script>
+// ===== UTILS =====
+function fmtNum(n) { if (!n && n!==0) return '0'; return Number(n).toLocaleString('en-US'); }
+function fmtDate(d) { if (!d) return '-'; return new Date(d).toLocaleDateString('ar-SA',{year:'numeric',month:'short',day:'numeric'}); }
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = 'toast show ' + type;
+  t.querySelector('i').className = type==='success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+  setTimeout(() => t.className = 'toast', 3500);
+}
+document.getElementById('todayDate').textContent = new Date().toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// ===== NAVIGATION =====
+function showSection(name, skipReset) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (name==='dashboard') loadDashboard();
+  if (name==='properties') loadPropertiesTable();
+  if (name==='requests') loadRequestsTable();
+  if (name==='cities') renderCitiesSection();
+  if (name==='change-password') clearPassForm(false);
+  if (name==='add-property' && !skipReset) resetPropForm();
+  if (name==='add-request' && !skipReset) resetReqForm();
+}
+
+// ===== PROPERTIES =====
+let allProps=[], editingPropId=null, existingImagesArr=[];
+
+async function loadPropertiesTable() {
+  try { const j=await fetch('save.php?action=get_properties').then(r=>r.json()); if(j.success) allProps=j.data||[]; }
+  catch(e) { try { allProps=await fetch('data/properties.json').then(r=>r.json()); } catch(e2){} }
+  allProps.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  renderPropsTable();
+}
+
+function renderPropsTable() {
+  const tbody=document.getElementById('propsBody');
+  if(!allProps.length){tbody.innerHTML=`<tr><td colspan="10"><div class="empty-state"><i class="fas fa-building"></i><p>لا توجد عروض عقارية</p></div></td></tr>`;return;}
+  tbody.innerHTML=allProps.map((p,i)=>{
+    const tc=p.type==='فيلا'?'villa':p.type==='شقة'?'apt':'land';
+    const img=p.images&&p.images.length?`<img src="${p.images[0]}" class="prop-thumb" alt="" onerror="this.outerHTML='<div class=no-img><i class=fas fa-image></i></div>'">`:`<div class="no-img"><i class="fas fa-image"></i></div>`;
+    return`<tr><td>${i+1}</td><td>${img}</td><td style="font-weight:700;color:var(--navy);min-width:150px">${p.title}</td><td><span class="type-badge ${tc}">${p.type}</span></td><td>${p.city}</td><td>${fmtNum(p.area)} م²</td><td style="font-weight:700">${fmtNum(p.price)}</td><td>${p.sold?'<span style="background:#fde8e8;color:#c0392b;border-radius:20px;padding:3px 10px;font-size:0.8rem;font-weight:700;">تم البيع</span>':'<span style="background:#e8f8ef;color:#1a6e3c;border-radius:20px;padding:3px 10px;font-size:0.8rem;font-weight:700;">متاح</span>'}</td><td>${fmtDate(p.date)}</td><td style="min-width:100px;color:var(--navy-dark);font-weight:600;">${p.owner_name||'-'}</td><td style="min-width:130px;">${p.owner_phone?`<div style="display:flex;gap:5px;flex-wrap:wrap;"><a href="tel:${p.owner_phone}" style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#1a7a4a,#25a05a);color:#fff;padding:4px 10px;border-radius:7px;text-decoration:none;font-size:0.78rem;font-weight:700;"><i class="fas fa-phone"></i> اتصال</a><a href="https://wa.me/966${p.owner_phone.replace(/^0/,'')}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#128c7e,#25d366);color:#fff;padding:4px 10px;border-radius:7px;text-decoration:none;font-size:0.78rem;font-weight:700;"><i class="fab fa-whatsapp"></i> واتساب</a></div>`:'-'}</td><td style="min-width:90px;">${p.location_url?`<a href="${p.location_url}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;padding:4px 10px;border-radius:7px;text-decoration:none;font-size:0.78rem;font-weight:700;"><i class="fas fa-map-marker-alt"></i> خرائط</a>`:'-'}</td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-edit" onclick="editProp(${p.id})"><i class="fas fa-edit"></i> تعديل</button><button class="btn-delete" onclick="deleteProp(${p.id},'${p.title.replace(/'/g,'')}')"><i class="fas fa-trash"></i> حذف</button></td></tr>`;
+  }).join('');
+}
+
+function resetPropForm() {
+  document.getElementById('propFormTitle').innerHTML='<i class="fas fa-plus-circle"></i> إضافة عقار جديد';
+  document.getElementById('savePropBtnTxt').textContent='حفظ العقار';
+  ['propId','propTitle','propPrice','propArea','propDetails','propOwnerName','propOwnerPhone','propLocationUrl'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('propType').value='';
+  document.getElementById('propCity').value='';
+  document.getElementById('soldNo').checked=true;
+  document.getElementById('propOwnerPhoneBtns').style.display='none';
+  document.getElementById('propLocationBtnWrap').style.display='none';
+  document.getElementById('previewImgs').innerHTML='';
+  document.getElementById('propImages').value='';
+  document.getElementById('existingImagesWrap').style.display='none';
+  document.getElementById('existingImages').innerHTML='';
+  existingImagesArr=[]; editingPropId=null;
+}
+
+function editProp(id) {
+  const p=allProps.find(x=>x.id===id); if(!p) return;
+  editingPropId=id; existingImagesArr=[...(p.images||[])];
+  document.getElementById('propFormTitle').innerHTML='<i class="fas fa-edit"></i> تعديل العقار';
+  document.getElementById('savePropBtnTxt').textContent='حفظ التعديلات';
+  document.getElementById('propId').value=id;
+  document.getElementById('propTitle').value=p.title;
+  document.getElementById('propType').value=p.type;
+  document.getElementById('propCity').value=p.city;
+  document.getElementById('propPrice').value=p.price;
+  document.getElementById('propArea').value=p.area;
+  document.getElementById('propDetails').value=p.details||'';
+  document.querySelector(`input[name="sold"][value="${p.sold?'1':'0'}"]`).checked=true;
+  document.getElementById('propOwnerName').value=p.owner_name||'';
+  document.getElementById('propOwnerPhone').value=p.owner_phone||'';
+  document.getElementById('propLocationUrl').value=p.location_url||'';
+  updatePropPhoneBtns(p.owner_phone||'');
+  updatePropLocationBtn(p.location_url||'');
+  document.getElementById('previewImgs').innerHTML='';
+  document.getElementById('propImages').value='';
+  if(existingImagesArr.length){document.getElementById('existingImagesWrap').style.display='block';renderExistingImages();}
+  else document.getElementById('existingImagesWrap').style.display='none';
+  showSection('add-property',true);
+}
+
+function renderExistingImages() {
+  document.getElementById('existingImages').innerHTML=existingImagesArr.map((img,i)=>`<div class="existing-img-item" id="eimg_${i}"><img src="${img}" alt=""><button class="del-img-btn" type="button" onclick="removeExistingImg(${i})"><i class="fas fa-times"></i></button></div>`).join('');
+}
+
+function removeExistingImg(idx) {
+  const imgPath=existingImagesArr[idx];
+  if(editingPropId&&imgPath){const fd=new FormData();fd.append('path',imgPath);fd.append('prop_id',editingPropId);fetch('save.php?action=delete_image',{method:'POST',body:fd}).catch(()=>{});}
+  existingImagesArr.splice(idx,1); renderExistingImages();
+  if(!existingImagesArr.length) document.getElementById('existingImagesWrap').style.display='none';
+}
+
+function updatePropPhoneBtns(val) {
+  const wrap = document.getElementById('propOwnerPhoneBtns');
+  if (!val || val.length < 9) { wrap.style.display='none'; return; }
+  wrap.style.display='flex';
+  document.getElementById('propCallBtn').href='tel:'+val;
+  const intl = '966'+val.replace(/^0/,'');
+  document.getElementById('propWhatsappBtn').href='https://wa.me/'+intl;
+}
+function updatePropLocationBtn(val) {
+  const wrap = document.getElementById('propLocationBtnWrap');
+  if (!val) { wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  document.getElementById('propLocationBtn').href=val;
+}
+
+function previewImages(input) {
+  const c=document.getElementById('previewImgs'); c.innerHTML='';
+  Array.from(input.files).forEach(f=>{const r=new FileReader();r.onload=e=>{const img=document.createElement('img');img.src=e.target.result;img.className='preview-img';c.appendChild(img);};r.readAsDataURL(f);});
+}
+
+async function saveProp(e) {
+  e.preventDefault();
+  const btn=document.querySelector('#propForm .btn-save');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+  const fd=new FormData();
+  fd.append('id',document.getElementById('propId').value);
+  fd.append('title',document.getElementById('propTitle').value);
+  fd.append('type',document.getElementById('propType').value);
+  fd.append('city',document.getElementById('propCity').value);
+  fd.append('price',document.getElementById('propPrice').value);
+  fd.append('area',document.getElementById('propArea').value);
+  fd.append('details',document.getElementById('propDetails').value);
+  fd.append('sold',document.querySelector('input[name="sold"]:checked').value);
+  fd.append('owner_name',document.getElementById('propOwnerName').value);
+  fd.append('owner_phone',document.getElementById('propOwnerPhone').value);
+  fd.append('location_url',document.getElementById('propLocationUrl').value);
+  fd.append('existing_images',JSON.stringify(existingImagesArr));
+  const files=document.getElementById('propImages').files;
+  for(let i=0;i<files.length;i++) fd.append('images[]',files[i]);
+  try {
+    const res=await fetch('save.php?action=save_property',{method:'POST',body:fd});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json=JSON.parse(await res.text());
+    if(json.success){showToast(json.message||'تم الحفظ بنجاح');await loadPropertiesTable();setTimeout(()=>showSection('properties'),700);}
+    else showToast(json.message||'حدث خطأ','error');
+  } catch(err){showToast('خطأ في الاتصال بالخادم','error');}
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> <span id="savePropBtnTxt">'+(editingPropId?'حفظ التعديلات':'حفظ العقار')+'</span>';
+}
+
+async function deleteProp(id,title) {
+  if(!confirm(`هل تريد حذف "${title}"؟`)) return;
+  const fd=new FormData(); fd.append('id',id);
+  try{const j=await fetch('save.php?action=delete_property',{method:'POST',body:fd}).then(r=>r.json());if(j.success){showToast('تم الحذف بنجاح');await loadPropertiesTable();loadDashboard();}else showToast(j.message||'حدث خطأ','error');}
+  catch(err){showToast('خطأ في الاتصال بالخادم','error');}
+}
+
+// ===== REQUESTS =====
+let allReqs=[];
+
+async function loadRequestsTable() {
+  try{const j=await fetch('save.php?action=get_requests').then(r=>r.json());if(j.success) allReqs=j.data||[];}
+  catch(e){try{allReqs=await fetch('data/requests.json').then(r=>r.json());}catch(e2){}}
+  renderReqsTable();
+}
+
+function renderReqsTable() {
+  const tbody=document.getElementById('reqsBody');
+  if(!allReqs.length){tbody.innerHTML=`<tr><td colspan="9"><div class="empty-state"><i class="fas fa-list-check"></i><p>لا توجد طلبات</p></div></td></tr>`;return;}
+  tbody.innerHTML=allReqs.map((r,i)=>`<tr><td>${i+1}</td><td style="font-weight:700;color:var(--navy)">${r.title}</td><td><span class="type-badge ${r.type==='فيلا'?'villa':r.type==='شقة'?'apt':'land'}">${r.type}</span></td><td>${r.city}</td><td style="font-weight:700">${fmtNum(r.budget)}</td><td>${r.owner_name||'-'}</td><td>${r.owner_phone||'-'}</td><td>${fmtDate(r.date)}</td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-edit" onclick="editReq(${r.id})"><i class="fas fa-edit"></i> تعديل</button><button class="btn-delete" onclick="deleteReq(${r.id},'${r.title.replace(/'/g,'')}')"><i class="fas fa-trash"></i> حذف</button></td></tr>`).join('');
+}
+
+function resetReqForm() {
+  document.getElementById('reqFormTitle').innerHTML='<i class="fas fa-plus"></i> إضافة طلب جديد';
+  document.getElementById('saveReqBtnTxt').textContent='حفظ الطلب';
+  ['reqId','reqTitle','reqBudget','reqDetails','reqOwnerName','reqOwnerPhone'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('reqType').value=''; document.getElementById('reqCity').value='';
+}
+
+function editReq(id) {
+  const r=allReqs.find(x=>x.id===id); if(!r) return;
+  document.getElementById('reqFormTitle').innerHTML='<i class="fas fa-edit"></i> تعديل الطلب';
+  document.getElementById('saveReqBtnTxt').textContent='حفظ التعديلات';
+  document.getElementById('reqId').value=id; document.getElementById('reqTitle').value=r.title;
+  document.getElementById('reqType').value=r.type; document.getElementById('reqCity').value=r.city;
+  document.getElementById('reqBudget').value=r.budget; document.getElementById('reqDetails').value=r.details||'';
+  document.getElementById('reqOwnerName').value=r.owner_name||'';
+  document.getElementById('reqOwnerPhone').value=r.owner_phone||'';
+  showSection('add-request',true);
+}
+
+async function saveReq(e) {
+  e.preventDefault();
+  const btn=document.querySelector('#reqForm .btn-save');
+  btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+  const fd=new FormData(document.getElementById('reqForm'));
+  try{
+    const res=await fetch('save.php?action=save_request',{method:'POST',body:fd});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json=JSON.parse(await res.text());
+    if(json.success){showToast(json.message||'تم الحفظ بنجاح');await loadRequestsTable();setTimeout(()=>showSection('requests'),700);}
+    else showToast(json.message||'حدث خطأ','error');
+  }catch(err){showToast('خطأ في الاتصال بالخادم','error');}
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> <span id="saveReqBtnTxt">حفظ الطلب</span>';
+}
+
+async function deleteReq(id,title) {
+  if(!confirm(`هل تريد حذف "${title}"؟`)) return;
+  const fd=new FormData(); fd.append('id',id);
+  try{const j=await fetch('save.php?action=delete_request',{method:'POST',body:fd}).then(r=>r.json());if(j.success){showToast('تم الحذف بنجاح');await loadRequestsTable();loadDashboard();}else showToast(j.message||'حدث خطأ','error');}
+  catch(err){showToast('خطأ في الاتصال بالخادم','error');}
+}
+
+// ===== AUTH =====
+function doLogout() {
+  if(!confirm('هل تريد تسجيل الخروج؟')) return;
+  sessionStorage.removeItem('alhoudi_logged_in'); sessionStorage.removeItem('alhoudi_login_time');
+  window.location.replace('login.html');
+}
+function togglePassField(inputId,btn) {
+  const input=document.getElementById(inputId); const isPass=input.type==='password';
+  input.type=isPass?'text':'password'; btn.querySelector('i').className=isPass?'fas fa-eye-slash':'fas fa-eye';
+}
+function clearPassForm(redirect) {
+  ['newUsername','newPassword','confirmPassword','currentPassword'].forEach(id=>{const el=document.getElementById(id);if(el) el.value='';});
+  if(redirect!==false) showSection('dashboard');
+}
+function saveCredentials() {
+  const cur=document.getElementById('currentPassword').value;
+  const nu=document.getElementById('newUsername').value.trim();
+  const np=document.getElementById('newPassword').value;
+  const cp=document.getElementById('confirmPassword').value;
+  const savedPass=localStorage.getItem('alhoudi_password')||'alhoudi2026';
+  if(!cur){showToast('أدخل كلمة المرور الحالية','error');return;}
+  if(cur!==savedPass){showToast('كلمة المرور الحالية غير صحيحة','error');return;}
+  if(np&&np!==cp){showToast('كلمة المرور الجديدة وتأكيدها غير متطابقان','error');return;}
+  if(np&&np.length<6){showToast('كلمة المرور يجب أن تكون 6 أحرف على الأقل','error');return;}
+  if(nu) localStorage.setItem('alhoudi_username',nu);
+  if(np) localStorage.setItem('alhoudi_password',np);
+  showToast('تم حفظ بيانات الدخول بنجاح ✓'); clearPassForm();
+}
+
+// ===== CITIES =====
+const DEFAULT_CITIES=['الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','تبوك','بريدة','أبها','نجران','حائل','الطائف','الجبيل','ينبع'];
+function getCities(){try{const s=localStorage.getItem('alhoudi_cities');if(s) return JSON.parse(s);}catch(e){}return[...DEFAULT_CITIES];}
+function saveCities(c){localStorage.setItem('alhoudi_cities',JSON.stringify(c));}
+function renderCitiesSection(){
+  const cities=getCities(); const c=document.getElementById('citiesList');
+  c.innerHTML=cities.length?cities.map((city,i)=>`<div style="display:flex;align-items:center;gap:8px;background:var(--gray);padding:8px 14px;border-radius:30px;font-size:0.9rem;font-weight:700;color:var(--navy);"><i class="fas fa-map-marker-alt" style="color:var(--gold);font-size:0.8rem;"></i>${city}<button onclick="removeCity(${i})" style="background:none;border:none;cursor:pointer;color:#e74c3c;font-size:0.85rem;padding:0;margin-right:4px;"><i class="fas fa-times"></i></button></div>`).join(''):'<p style="color:var(--text-light);font-size:0.9rem;">لا توجد مدن مضافة.</p>';
+}
+function addCity(){
+  const input=document.getElementById('newCityInput'); const name=input.value.trim();
+  if(!name){showToast('أدخل اسم المدينة','error');return;}
+  const cities=getCities(); if(cities.includes(name)){showToast('المدينة موجودة مسبقاً','error');return;}
+  cities.push(name); saveCities(cities); input.value=''; renderCitiesSection(); updateAllCitySelects(); showToast('تمت إضافة المدينة بنجاح');
+}
+function removeCity(index){
+  const cities=getCities(); if(!confirm(`هل تريد حذف مدينة "${cities[index]}"؟`)) return;
+  cities.splice(index,1); saveCities(cities); renderCitiesSection(); updateAllCitySelects(); showToast('تم حذف المدينة');
+}
+function updateAllCitySelects(){
+  const cities=getCities();
+  ['propCity','reqCity'].forEach(id=>{const sel=document.getElementById(id);if(!sel) return;const cur=sel.value;sel.innerHTML='<option value="">اختر المدينة</option>'+cities.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');});
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  updateAllCitySelects();
+  const inp=document.getElementById('newCityInput');
+  if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCity();}});
+});
+
+// ===== DASHBOARD =====
+async function loadDashboard(){
+  let props=[],reqs=[];
+  try{
+    const[r1,r2]=await Promise.all([fetch('save.php?action=get_properties').then(r=>r.json()),fetch('save.php?action=get_requests').then(r=>r.json())]);
+    if(r1.success) props=r1.data||[]; if(r2.success) reqs=r2.data||[];
+  }catch(e){
+    try{const[r1,r2]=await Promise.all([fetch('data/properties.json').then(r=>r.json()),fetch('data/requests.json').then(r=>r.json())]);props=r1;reqs=r2;}catch(e2){}
+  }
+  allProps=props.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  allReqs=reqs.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  document.getElementById('statProps').textContent=props.length;
+  document.getElementById('statReqs').textContent=reqs.length;
+  document.getElementById('statVillas').textContent=props.filter(p=>p.type==='فيلا').length;
+  document.getElementById('statApts').textContent=props.filter(p=>p.type==='شقة'||p.type==='أرض').length;
+  const pb=document.getElementById('dashPropsBody');
+  pb.innerHTML=props.slice(0,5).length?props.slice(0,5).map(p=>`<tr><td style="font-weight:700;color:var(--navy)">${p.title}</td><td><span class="type-badge ${p.type==='فيلا'?'villa':p.type==='شقة'?'apt':'land'}">${p.type}</span></td><td>${p.city}</td><td style="font-weight:700">${fmtNum(p.price)}</td><td>${p.sold?'<span style="background:#fde8e8;color:#c0392b;border-radius:20px;padding:2px 8px;font-size:0.78rem;font-weight:700;">تم البيع</span>':'<span style="background:#e8f8ef;color:#1a6e3c;border-radius:20px;padding:2px 8px;font-size:0.78rem;font-weight:700;">متاح</span>'}</td><td>${fmtDate(p.date)}</td></tr>`).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:20px">لا توجد عروض</td></tr>`;
+  const rb=document.getElementById('dashReqsBody');
+  rb.innerHTML=reqs.slice(0,5).length?reqs.slice(0,5).map(r=>`<tr><td style="font-weight:700;color:var(--navy)">${r.title}</td><td><span class="type-badge ${r.type==='فيلا'?'villa':r.type==='شقة'?'apt':'land'}">${r.type}</span></td><td>${r.city}</td><td style="font-weight:700">${fmtNum(r.budget)}</td><td>${fmtDate(r.date)}</td></tr>`).join(''):`<tr><td colspan="5" style="text-align:center;color:var(--text-light);padding:20px">لا توجد طلبات</td></tr>`;
+}
+
+// ===== EXPORT =====
+async function exportToExcel(){
+  showToast('جاري تحضير ملف الإكسل...');
+  if(!allProps.length) await loadPropertiesTable();
+  if(!allReqs.length) await loadRequestsTable();
+  const wb=XLSX.utils.book_new();
+  const wsp=XLSX.utils.aoa_to_sheet([['#','العنوان','النوع','المدينة','المساحة (م²)','السعر (ريال)','الحالة','التاريخ','التفاصيل'],...allProps.map((p,i)=>[i+1,p.title||'',p.type||'',p.city||'',p.area||0,p.price||0,p.sold?'تم البيع':'متاح للبيع',p.date?new Date(p.date).toLocaleDateString('ar-SA'):'',p.details||''])]);
+  wsp['!cols']=[{wch:5},{wch:35},{wch:12},{wch:15},{wch:12},{wch:16},{wch:14},{wch:14},{wch:40}];
+  XLSX.utils.book_append_sheet(wb,wsp,'العروض العقارية');
+  const wsr=XLSX.utils.aoa_to_sheet([['#','عنوان الطلب','النوع','المدينة','الميزانية (ريال)','التاريخ','التفاصيل'],...allReqs.map((r,i)=>[i+1,r.title||'',r.type||'',r.city||'',r.budget||0,r.date?new Date(r.date).toLocaleDateString('ar-SA'):'',r.details||''])]);
+  wsr['!cols']=[{wch:5},{wch:35},{wch:12},{wch:15},{wch:16},{wch:14},{wch:40}];
+  XLSX.utils.book_append_sheet(wb,wsr,'الطلبات العقارية');
+  XLSX.writeFile(wb,`الحودي-العقارية-${new Date().toISOString().slice(0,10)}.xlsx`);
+  showToast('تم تصدير الملف بنجاح ✓');
+}
+
+// Init
+loadDashboard();
+</script>
+</body>
+</html>
